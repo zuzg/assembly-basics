@@ -1,6 +1,3 @@
-;w make 14 line zamienic na: cc -no-pie -o $@ $^
-; should work w/o -no-pie?
-
 bits 64
 default rel
 global main
@@ -33,8 +30,8 @@ section .text
        
        lea    RDI, [fmt_in]
        lea    RSI, [a] 
-       mov    AL, 0 ;scan number to a
-       call   scanf wrt ..plt
+       mov    AL, 0 
+       call   scanf wrt ..plt ;scan number to a
        cmp    RAX, 1
        jnz    DONE
      
