@@ -11,7 +11,8 @@ section .data
        new_line db 10, 0
 	
 section .bss
-       input	resb 30
+       input	resb 1024
+       output   resb 1024
 	
 section .text
     main:
@@ -22,17 +23,24 @@ section .text
 	lea	RSI, [input]	
 	mov	RAX, 0
 	call	scanf wrt ..plt
+
+        ;copy
+        lea     RDI, [output]           
+        lea     RSI, [input]            
+        mov     RCX, 1024               
+        cld           ; clear direction flag (string operations inc the index registers)            
+        rep     movsb ; repeat: copy byte from the DS:[(E)SI] to the ES:[(E)DI] register
 	
 	;printf
 	lea	RDI, [format]
-	lea	RDI, [input]
+	lea	RSI, [output]
 	mov	RAX, 0
 	call	printf wrt ..plt
 	
 	;print a new line
-        lea   RDI, [new_line]
-        mov   RAX, 0
-        call  printf wrt ..plt
+        lea     RDI, [new_line]
+        mov     RAX, 0
+        call    printf wrt ..plt
 
 	add	RSP, 8
 	sub	RAX, RAX
